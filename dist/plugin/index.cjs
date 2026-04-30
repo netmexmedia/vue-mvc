@@ -113,5 +113,3 @@ exports.autoToNativePlugin = autoToNativePlugin;
 exports.mvcPlugin = mvcPlugin;
 exports.styleResolverPlugin = styleResolverPlugin;
 exports.templateResolverPlugin = templateResolverPlugin;
-//# sourceMappingURL=index.cjs.map
-//# sourceMappingURL=index.cjs.map

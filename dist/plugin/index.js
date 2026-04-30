@@ -108,5 +108,3 @@ function mvcPlugin() {
 }
 
 export { autoToNativePlugin, mvcPlugin, styleResolverPlugin, templateResolverPlugin };
-//# sourceMappingURL=index.js.map
-//# sourceMappingURL=index.js.map
