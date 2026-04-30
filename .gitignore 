@@ -3,22 +3,31 @@ node_modules/
 
 # build output
 dist/
+*.local
 
 # logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.log
 
 # env files
 .env
 .env.*
 !.env.example
 
-# OS/editor noise
+# OS / editor noise
 .DS_Store
+Thumbs.db
 .idea/
 .vscode/
 
-# TypeScript incremental cache
+# TypeScript
 *.tsbuildinfo
+
+# test / coverage
+coverage/
+
+# misc
+*.tgz

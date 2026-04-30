@@ -1,33 +1,60 @@
-# @netmex/vue-mvc
+# Netmex - Vue MVC
 
-MVC tooling for Vue class/decorator projects using `vue-facing-decorator`.
+[![npm version](https://img.shields.io/npm/v/@netmex/vue-mvc.svg)](https://www.npmjs.com/package/@netmex/vue-mvc)
+[![npm downloads](https://img.shields.io/npm/dm/@netmex/vue-mvc.svg)](https://www.npmjs.com/package/@netmex/vue-mvc)
+[![license](https://img.shields.io/npm/l/@netmex/vue-mvc.svg)](LICENSE)
 
-## What this package does
+Lightweight MVC tooling for Vue class/decorator projects using `vue-facing-decorator`.
 
-This package provides Vite transforms that support a class/decorator MVC style in Vue projects.
+## Key Features
+* Auto-wraps decorator class components with `toNative(...)`
+* Resolves `template: './Component.html'` into raw template imports
+* Resolves `style: './Component.scss'` into style imports
+* Enables a clean MVC-style separation of logic, template, and styles
 
-- Auto-wraps decorator class components with `toNative(...)`
-- Resolves `template: './Component.html'` into raw template imports
-- Resolves `style: './Component.scss'` into style imports
+## Core Concepts
+
+This package targets Vue 3 projects that use class-based components with decorators (via `vue-facing-decorator`).
+
+It provides Vite plugins that transform these components into native Vue-compatible components at build time.
+
+The goal is to enable a clear MVC-style structure:
+
+- **Logic** lives in the class
+- **Template** is defined separately (HTML or inline)
+- **Styles** are handled independently (CSS/SCSS)
+
+This separation improves maintainability and scalability, while still leveraging Vue’s reactivity and component system.
 
 ## Installation
+
+Install via npm:
 
 ```bash
 npm i -D @netmex/vue-mvc
 ```
 
-## Peer dependencies
+## Requirements
 
-Your app must have compatible versions of:
+This package is designed for Vue 3 projects using Vite and class-based decorators.
 
-- vue
-- vite
-- @vitejs/plugin-vue
-- vue-facing-decorator
+Ensure your project includes:
 
-## Required TypeScript config (consumer app)
+- `vue` (Vue 3)
+- `vite`
+- `@vitejs/plugin-vue`
+- `vue-facing-decorator`
 
-In the tsconfig that compiles your component .ts files:
+### Notes
+
+- Only Vue 3 is supported (Vue 2 is not compatible)
+- `vue-facing-decorator` is required for class-based components
+- This plugin extends Vite's build process, so Vite is required
+
+## TypeScript Configuration
+
+Your project must enable experimental decorators.
+
 ```ts
 {
   "compilerOptions": {
@@ -46,40 +73,52 @@ import vue from '@vitejs/plugin-vue'
 import { mvcPlugin } from '@netmex/vue-mvc/vite'
 
 export default defineConfig({
-  plugins: [vue(), ...mvcPlugin()],
+    plugins: [
+        vue(),
+        mvcPlugin(),
+    ],
 })
 ```
 
-## Supported conventions
-Inside @Component(...):
-- template: './MyComponent.html'
-- style: './MyComponent.scss' (or css file path)
+## Usage
 
-## Optional requirements
-If you use .scss in style, install Sass in the consumer app:
+Use the `@Component` decorator from vue-facing-decorator as usual.
+The plugin will automatically transform your components for Vue compatibility.
 
-```bash
-npm i -D sass
+### Example (MVC-style component)
+
+```ts
+import { Component } from 'vue-facing-decorator'
+
+@Component({
+  template: './MyComponent.html',
+  style: './MyComponent.scss',
+})
+export default class MyComponent {
+  // component logic here
+}
 ```
 
-*(Or use sass-embedded.)*
+## Inline Templates & Styles
 
-## Troubleshooting
-- Decorators not compiling
-    - Confirm experimentalDecorators: true in the app tsconfig used for component code.
-- Template not loaded
-    - Verify template path is relative to the component file and points to an existing .html.
-- Style not applied
-    - Verify the style path exists and Sass is installed for .scss.
+Inline templates and styles are also supported:
 
+```ts
+import { Component } from 'vue-facing-decorator'
 
-## Local development (this package)
-
-```bash 
-  npm run typecheck
-  npm run build
-  npm run smoke
+@Component({
+    template: `<div>Hello World</div>`,
+    style: `div { color: red; }`,
+})
+export default class MyComponent {
+    // component logic here
+}
 ```
+
+## Related
+
+- [`vue-facing-decorator`](https://github.com/facing-dev/vue-facing-decorator) - provides the class-based decorator API used by this package
 
 ## License
-  MIT
+
+MIT License
