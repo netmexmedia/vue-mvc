@@ -1,0 +1,33 @@
+import type { InjectionKey } from 'vue'
+import type { Cons } from '../component'
+import type { OptionBuilder } from '../optionBuilder'
+import { obtainSlot, optionNullableMemberDecorator } from '../utils'
+
+export interface InjectConfig {
+    from?: string | symbol | Symbol | InjectionKey<any>
+    default?: any
+}
+
+export const decorator = optionNullableMemberDecorator(function (proto: any, name: string, option?: InjectConfig) {
+    const slot = obtainSlot(proto)
+    const map = slot.obtainMap('inject')
+    const opt = Object.assign({}, option ?? {})
+    map.set(name, opt)
+})
+
+
+export function build(cons: Cons, optionBuilder: OptionBuilder) {
+    optionBuilder.inject ??= {}
+    const slot = obtainSlot(cons.prototype)
+    const names = slot.getMap('inject')
+    if (!names || names.size === 0) {
+        return
+    }
+
+    names.forEach((value, name) => {
+        optionBuilder.inject![name] = value
+    })
+
+}
+
+
